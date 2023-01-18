@@ -4,8 +4,7 @@
 
 #include <xc.h>
 #include "LEDarray.h"
-#include <stdio.h>
-#include <stdlib.h>
+
 
 #define _XTAL_FREQ 64000000 //note intrinsic _delay function is 62.5ns at 64,000,000Hz  
 
@@ -28,11 +27,18 @@ void main(void)
             if (held == 0) { // only increment if button wasn't held at previous iteration
                 count ++; 
             }
-            held = 1;
+            LEDarray_disp_bin(count);
+            __delay_ms(500);
+            while (!PORTFbits.RF2) {
+                count ++;
+                LEDarray_disp_bin(count);
+                __delay_ms(50);
+            }
+            
+            held = 1; // button was held if in this if statement, so set to 1
         } else { // no signal means button not held
             held = 0;
         }
         LEDarray_disp_bin(count);
-//        __delay_ms(100);
     }
 }
