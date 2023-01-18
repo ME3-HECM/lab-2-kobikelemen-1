@@ -9,6 +9,26 @@ void LEDarray_init(void)
 {
     	//set up TRIS registers for pins connected to LED array
 	//set initial output LAT values (they may have random values when powered on)
+    TRISGbits.TRISG0 = 0;
+    TRISGbits.TRISG1 = 0;
+    TRISAbits.TRISA2 = 0;
+    TRISFbits.TRISF6 = 0;
+    TRISAbits.TRISA4 = 0;
+    TRISAbits.TRISA5 = 0;
+    TRISFbits.TRISF0 = 0;
+    TRISBbits.TRISB0 = 0;
+    TRISBbits.TRISB1 = 0;
+    
+    LATGbits.LATG0 = 0;
+    LATGbits.LATG1 = 0;
+    LATAbits.LATA2 = 0;
+    LATFbits.LATF6 = 0;
+    LATAbits.LATA4 = 0;
+    LATAbits.LATA5 = 0;
+    LATFbits.LATF0 = 0;
+    LATBbits.LATB0 = 0;
+    LATBbits.LATB1 = 0;
+    
 }
 
 /************************************
@@ -20,6 +40,16 @@ void LEDarray_disp_bin(unsigned int number)
 	//some code to turn on/off the pins connected to the LED array
 	//if statements and bit masks can be used to determine if a particular pin should be on/off
 	//see Readme.md for examples
+    LATGbits.LATG0 = (number & 0b000000001);
+    LATGbits.LATG1 = (number & 0b000000010) >> 1;
+    LATAbits.LATA2 = (number & 0b000000100) >> 2;
+    LATFbits.LATF6 = (number & 0b000001000) >> 3;
+    LATAbits.LATA4 = (number & 0b000010000) >> 4;
+    LATAbits.LATA5 = (number & 0b000100000) >> 5;
+    LATFbits.LATF0 = (number & 0b001000000) >> 6;
+    LATBbits.LATB0 = (number & 0b010000000) >> 7;
+    LATBbits.LATB1 = (number & 0b100000000) >> 8;
+    
 }
 
 /************************************
