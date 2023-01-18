@@ -57,13 +57,26 @@ void LEDarray_disp_bin(unsigned int number)
 / where each LED is a value of 10
 ************************************/
 void LEDarray_disp_dec(unsigned int number)
-{
-	unsigned int disp_val;
-	
+{	
 	//some code to manipulate the variable number into the correct
 	//format and store in disp_val for display on the LED array
-
-	LEDarray_disp_bin(disp_val); 	//display value on LED array
+    unsigned int disp_val = 1;
+    if (number < 10) { // don't display any lights when less than 10
+        LEDarray_disp_bin(0);
+        return;
+    }
+    int i = 10;
+    unsigned int count = 0;
+    while (i <= number-10) { // count number of tens that fit into number    
+        disp_val = disp_val << 1;
+        i += 10;
+    }
+ 
+    
+    disp_val = disp_val << 1; // fill in all lights up disp_val-th light
+    disp_val --;
+    
+	LEDarray_disp_bin(disp_val); //display value on LED array
 }
 
 

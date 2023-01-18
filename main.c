@@ -27,18 +27,17 @@ void main(void)
             if (held == 0) { // only increment if button wasn't held at previous iteration
                 count ++; 
             }
-            LEDarray_disp_bin(count);
+            LEDarray_disp_dec(count);
             __delay_ms(500);
-            while (!PORTFbits.RF2) {
+            while (!PORTFbits.RF2) { // if button is still held after 500ms, increment count continously
                 count ++;
-                LEDarray_disp_bin(count);
+                LEDarray_disp_dec(count);
                 __delay_ms(50);
             }
-            
             held = 1; // button was held if in this if statement, so set to 1
         } else { // no signal means button not held
             held = 0;
         }
-        LEDarray_disp_bin(count);
+        LEDarray_disp_dec(count);
     }
 }
