@@ -9,20 +9,24 @@
 
 #define _XTAL_FREQ 64000000 //note intrinsic _delay function is 62.5ns at 64,000,000Hz  
 
+void setup_button(void) {
+    // sets up button pins for input
+    TRISFbits.TRISF2 = 1;
+    ANSELFbits.ANSELF2 = 0;
+    
+}
+
+
 void main(void) 
-{
-	unsigned int count = 0b00000001;
+{    
+    unsigned int count = 0;
     LEDarray_init();
+    setup_button();
     while (1) {
-        for (int i=0; i < 7; i++) {
-            count = count << 1;
-            LEDarray_disp_bin(count);
-            __delay_ms(100);
+        if (!PORTFbits.RF2) {
+            count ++; // increment count whenever button is pressed
         }
-        for (int i=0; i < 7; i++) {
-            count = count >> 1;
-            LEDarray_disp_bin(count);// 
-            __delay_ms(100);
-        }
+        LEDarray_disp_bin(count);
+        __delay_ms(100);
     }
 }
