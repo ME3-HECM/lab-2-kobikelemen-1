@@ -4,18 +4,25 @@
 
 #include <xc.h>
 #include "LEDarray.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #define _XTAL_FREQ 64000000 //note intrinsic _delay function is 62.5ns at 64,000,000Hz  
 
 void main(void) 
 {
-	unsigned int count=0;
+	unsigned int count = 0b00000001;
     LEDarray_init();
-  
     while (1) {
-		count++; // increment count
-		if (count>511) {count=0;} //reset a when it gets too big
-		LEDarray_disp_bin(count); //output a on the LED array in binary
-		__delay_ms(50); // Delay so human eye can see change
+        for (int i=0; i < 7; i++) {
+            count = count << 1;
+            LEDarray_disp_bin(count);
+            __delay_ms(100);
+        }
+        for (int i=0; i < 7; i++) {
+            count = count >> 1;
+            LEDarray_disp_bin(count);// 
+            __delay_ms(100);
+        }
     }
 }
