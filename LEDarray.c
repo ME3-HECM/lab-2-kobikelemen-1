@@ -17,6 +17,7 @@ void LEDarray_init(void)
     TRISAbits.TRISA5 = 0;
     TRISFbits.TRISF0 = 0;
     TRISBbits.TRISB0 = 0;
+    TRISBbits.TRISB1 = 0;
     
     LATGbits.LATG0 = 0;
     LATGbits.LATG1 = 0;
@@ -26,6 +27,8 @@ void LEDarray_init(void)
     LATAbits.LATA5 = 0;
     LATFbits.LATF0 = 0;
     LATBbits.LATB0 = 0;
+    LATBbits.LATB1 = 0;
+    
     
 }
 
@@ -48,6 +51,7 @@ void LEDarray_disp_bin(unsigned int number)
     LATAbits.LATA5 = (number & 0b000100000) >> 5;
     LATFbits.LATF0 = (number & 0b001000000) >> 6;
     LATBbits.LATB0 = (number & 0b010000000) >> 7;
+    LATBbits.LATB1 = (number & 0b100000000) >> 8;
     
 }
 
