@@ -17,7 +17,7 @@ void LEDarray_init(void)
     TRISAbits.TRISA5 = 0;
     TRISFbits.TRISF0 = 0;
     TRISBbits.TRISB0 = 0;
-    TRISBbits.TRISB1 = 0;
+//    TRISBbits.TRISB1 = 0;
     
     LATGbits.LATG0 = 0;
     LATGbits.LATG1 = 0;
@@ -27,7 +27,7 @@ void LEDarray_init(void)
     LATAbits.LATA5 = 0;
     LATFbits.LATF0 = 0;
     LATBbits.LATB0 = 0;
-    LATBbits.LATB1 = 0;
+//    LATBbits.LATB1 = 0;
     
     
 }
@@ -51,7 +51,7 @@ void LEDarray_disp_bin(unsigned int number)
     LATAbits.LATA5 = (number & 0b000100000) >> 5;
     LATFbits.LATF0 = (number & 0b001000000) >> 6;
     LATBbits.LATB0 = (number & 0b010000000) >> 7;
-    LATBbits.LATB1 = (number & 0b100000000) >> 8;
+//    LATBbits.LATB1 = (number & 0b100000000) >> 8;
     
 }
 
@@ -75,12 +75,25 @@ void LEDarray_disp_dec(unsigned int number)
         disp_val = disp_val << 1;
         i += 10;
     }
- 
     
     disp_val = disp_val << 1; // fill in all lights up disp_val-th light
     disp_val --;
     
 	LEDarray_disp_bin(disp_val); //display value on LED array
+}
+
+
+void LED_intensity_meter(unsigned int val) {
+    int num_bits_LED = 8;
+    int max_val_LED = 1 << num_bits_LED;
+    int delta_intensity_meter = max_val_LED / num_bits_LED; // finding what each intensity bar should represent when split equally
+    int sum = 0;
+    int num_lit = 0; 
+    while (sum < val) { // counting number of intensity bars that fit into val, this gives proportion of LEDs that should be lit
+        sum += delta_intensity_meter;
+        num_lit ++;
+    }
+    LEDarray_disp_bin((1 << (num_lit + 1) ) - 1); // displaying all LEDs up to num_lit using bit shift
 }
 
 
