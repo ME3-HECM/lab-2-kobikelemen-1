@@ -22,6 +22,6 @@ void main(void)
     ADC_init();
     while (1) {
         unsigned int val = ADC_getval(); // read analogue value then display it
-        LEDarray_disp_bin(val);
+        LEDarray_disp_bin(abs(val/2));
     }
 }

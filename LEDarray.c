@@ -84,6 +84,7 @@ void LEDarray_disp_dec(unsigned int number)
 }
 
 
+
 /************************************
 / LEDarray_disp_PPM
 / Function used to display a level on the LED array with peak hold
