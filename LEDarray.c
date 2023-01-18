@@ -97,6 +97,28 @@ void LED_intensity_meter(unsigned int val) {
 }
 
 
+void LEDarray_disp_PPM(unsigned int cur_val, unsigned int max) {
+    int num_bits_LED = 8;
+    int max_val_LED = 1 << num_bits_LED;
+    int delta_intensity_meter = max_val_LED / num_bits_LED; // finding what each intensity bar should represent when split equally
+    int sum = 0;
+    int num_linear_lit = 0; 
+    while (sum < cur_val) { // counting number of intensity bars that fit into cur_val, this gives proportion of LEDs that should be lit
+        sum += delta_intensity_meter;
+        num_linear_lit ++;
+    }
+    sum = 0;
+    int num_max_lit = 0; 
+    while (sum < max) { // counting number of intensity bars that fit into max
+        sum += delta_intensity_meter;
+        num_max_lit ++;
+    }
+    unsigned int linear_loading_bar = ((1 << (num_linear_lit + 1) ) - 1);
+    unsigned int single_bar = (1 << num_max_lit);
+    LEDarray_disp_bin(linear_loading_bar | single_bar); // OR them to combine in LED   
+}
+
+
 
 /************************************
 / LEDarray_disp_PPM
@@ -104,13 +126,3 @@ void LED_intensity_meter(unsigned int val) {
 / cur_val is the current level from the most recent sample, and max is the peak value for the last second
 / these input values need to calculated else where in your code
 ************************************/
-void LEDarray_disp_PPM(unsigned int cur_val, unsigned int max)
-{
-	unsigned int disp_val;
-	
-	// some code to format the variable cur_val and max, store in disp_val for display on the LED array
-	// hint: one method is to manipulate the variables separately and then combine them using the bitwise OR operator
-
-	LEDarray_disp_bin(disp_val);	//display value on LED array
-}
-

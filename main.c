@@ -20,9 +20,15 @@ void main(void)
 {    
     LEDarray_init();
     ADC_init();
+    unsigned int max = 0;
     while (1) {
         unsigned int val = ADC_getval(); // read analogue value then display it
-        LEDarray_disp_bin((unsigned int)(val/4));
-        LED_intensity_meter(val);
+        LEDarray_disp_PPM(val, max);
+        if (val > max) {
+            max = val;
+        } else {
+            max -= 32;
+        }
+        __delay_ms(1000);   
     }
 }
