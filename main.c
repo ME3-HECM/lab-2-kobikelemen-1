@@ -22,11 +22,17 @@ void main(void)
     unsigned int count = 0;
     LEDarray_init();
     setup_button();
+    int held = 0; // is button held
     while (1) {
         if (!PORTFbits.RF2) {
-            count ++; // increment count whenever button is pressed
+            if (held == 0) { // only increment if button wasn't held at previous iteration
+                count ++; 
+            }
+            held = 1;
+        } else { // no signal means button not held
+            held = 0;
         }
         LEDarray_disp_bin(count);
-        __delay_ms(100);
+//        __delay_ms(100);
     }
 }
